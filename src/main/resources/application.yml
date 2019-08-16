@@ -1,0 +1,15 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://192.168.1.116:5432/bidirectional_jpa
+    username: postgres
+    password: dr1hr5e3
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        jdbc:
+          lob:
+            non_contextual_creation: true
+#        enable_lazy_load_no_trans: true
+    show-sql: true
