@@ -7,6 +7,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Repository
@@ -23,7 +24,7 @@ public interface ShoppingCartRepository extends JpaRepository<ShoppingCart, UUID
     //    Busca todos os carrinhos de compras que tem itens e que não tem,
     //    e os que tiverem e para buscar os items tambem
     @Transactional(readOnly = true)
-    @Query("SELECT cart FROM ShoppingCart cart LEFT JOIN FETCH cart.itens")
+    @Query("SELECT DISTINCT cart FROM ShoppingCart cart LEFT JOIN FETCH cart.itens")
     List<ShoppingCart> findAllEager();
 
     //    Busca todos os carrinhos de compras que tem itens.
@@ -35,4 +36,8 @@ public interface ShoppingCartRepository extends JpaRepository<ShoppingCart, UUID
     @Transactional(readOnly = true)
     @Query("SELECT cart FROM ShoppingCart cart")
     List<ShoppingCart> findAllJPQL();
+
+    @Transactional(readOnly = true)
+    @Query("SELECT cart FROM ShoppingCart cart LEFT JOIN FETCH cart.itens where cart.uuid = ?1")
+    Optional<ShoppingCart> findByIdFetch(UUID uuid);
 }
